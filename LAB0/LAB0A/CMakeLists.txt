@@ -4,12 +4,15 @@ project(LAB0A
 	DESCRIPTION "NSU LABS FIT 3 SEMESTER"
 	LANGUAGES CXX)
 
-set(PROJECT_HEADERS
-)
-
 set(PROJECT_SOURCES
         src/main.cpp
+		src/module1.cpp
+		src/module1.h
+		src/module2.cpp
+		src/module2.h
+		src/module3.cpp
+		src/module3.h
 )
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
