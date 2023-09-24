@@ -1,15 +1,13 @@
 cmake_minimum_required(VERSION 3.26)
-project(LAB0 
+project(LAB1
 	VERSION 1.0.0
 	DESCRIPTION "NSU LABS FIT 3 SEMESTER"
 	LANGUAGES CXX)
 
-set(PROJECT_HEADERS
-)
-
 set(PROJECT_SOURCES
         src/main.cpp
+		src/BitArray.h
+		src/BitArray.cpp
 )
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
