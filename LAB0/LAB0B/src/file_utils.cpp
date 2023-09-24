@@ -18,3 +18,13 @@ void open_out_file(ofstream & out_file, string & out_path) {
         throw my_exception("Can't open output file. Please, create it before use.");
     }
 }
+
+void write_to_file(ofstream & out_file, std::string word,
+                   int amount, double percentage) {
+    out_file << word
+             << ','
+             << amount
+             << ','
+             << percentage
+             << endl;
+}

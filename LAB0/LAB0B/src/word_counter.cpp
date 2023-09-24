@@ -4,7 +4,9 @@
 
 #include "word_counter.h"
 #include "utils.h"
+#include "file_utils.h"
 #include <iostream>
+#include <algorithm>
 #include <map>
 #include <string>
 #include <set>
@@ -39,7 +41,8 @@ void count_words(ifstream & in_file, ofstream & out_file) {
         getline(in_file, buf);
         list<string> words;
         split(buf, words);
-        for (const auto & word : words) {
+        for (auto & word : words) {
+            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
             word_counter++;
             if (freq_map.count(word) == 0) {
                 freq_map[word] = 1;
@@ -50,12 +53,11 @@ void count_words(ifstream & in_file, ofstream & out_file) {
     }
 
     set<pair<string, int>, comp> sorted_pairs = map_to_sorted_set(freq_map);
-    for (const auto& p : sorted_pairs) {
-        out_file << p.first
-            << ','
-            << p.second
-            << ','
-            << get_percentage(word_counter, p.second)
-            << endl;
+    for (const auto & p : sorted_pairs) {
+        write_to_file(out_file,
+                      p.first,
+                      p.second,
+                      get_percentage(word_counter, p.second)
+                      );
     }
 }
