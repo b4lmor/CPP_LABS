@@ -5,10 +5,18 @@ project(LAB0B
 	LANGUAGES CXX)
 
 set(PROJECT_HEADERS
+		src/utils.h
+		src/my_exception.h
 )
 
 set(PROJECT_SOURCES
-        src/main.cpp
+		src/main.cpp
+		src/utils.cpp
+		src/my_exception.cpp
+		src/file_utils.h
+		src/file_utils.cpp
+		src/word_counter.h
+		src/word_counter.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS})
