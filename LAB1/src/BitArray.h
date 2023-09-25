@@ -8,25 +8,26 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <algorithm>
 
 #define CELL_SIZE 8
+#define CELL_TYPE unsigned char
 
 typedef struct bits_s {
-    std::vector<std::byte> bit_vector;
-    /*
-     * in {1 ; 2 ; ... ; 8}
-     * OR just {0} if BitArray is empty
-     */
-    uint8_t last_used_bit = 0;
+    std::vector<CELL_TYPE> bit_vector;
+    uint16_t last_bit = 0;
 } bits_t;
 
 class BitArray {
 private:
     bits_t bits;
-    void set_bit(int pos, bool value);
+    static CELL_TYPE set_bit_in_cell(CELL_TYPE cell, uint8_t pos, bool value);
+    void set_bit(uint8_t cell_ind, uint8_t pos, bool value);
+    explicit BitArray(bits_t bits);
+    void create_empty_cell();
 public:
-    BitArray();
-    ~BitArray();
+    BitArray() = default;
+    ~BitArray() = default;
 
     //Конструирует массив, хранящий заданное количество бит.
     //Первые sizeof(long) бит можно инициализровать с помощью параметра value.
@@ -75,23 +76,23 @@ public:
     BitArray & reset();
 
     //true, если массив содержит истинный бит.
-    bool any() const;
+    [[nodiscard]] bool any() const;
     //true, если все биты массива ложны.
-    bool none() const;
+    [[nodiscard]] bool none() const;
     //Битовая инверсия
     BitArray operator~() const;
     //Подсчитывает количество единичных бит.
-    int count() const;
-
+    [[nodiscard]] int count() const;
 
     //Возвращает значение бита по индексу i.
     bool operator[](int i) const;
 
-    int size() const;
-    bool empty() const;
+    [[nodiscard]] int size() const;
+
+    [[nodiscard]] bool empty() const;
 
     //Возвращает строковое представление массива.
-    std::string to_string() const;
+    [[nodiscard]] std::string to_string() const;
 };
 
 bool operator==(const BitArray & a, const BitArray & b);
