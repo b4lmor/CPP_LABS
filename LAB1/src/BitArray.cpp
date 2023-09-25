@@ -26,7 +26,7 @@ BitArray::BitArray(bits_t bits_copy) : bits{std::move(bits_copy)} {
 }
 
 BitArray::BitArray(const BitArray & b) : BitArray({
-    b.bits.bit_vector,
+    std::vector<CELL_TYPE>(b.bits.bit_vector),
     b.bits.last_bit}) {
 }
 
@@ -38,7 +38,8 @@ void BitArray::swap(BitArray & b) {
 
 BitArray & BitArray::operator=(const BitArray & b) {
     if (this == &b) { throw std::exception(); }
-    this->bits = b.bits;
+    this->bits = {std::vector<CELL_TYPE>(b.bits.bit_vector),
+            bits.last_bit};
     return *this;
 }
 
@@ -109,7 +110,7 @@ BitArray::BitArray(int num_bits, unsigned long value) {
         create_empty_cell();
     }
     if (value != 0) {
-        for (int i = 0; i < sizeof(long) * 8; i++) {
+        for (int i = 0; i < MIN(sizeof(long), num_bits) * 8; i++) {
             this->push_back((value >> i) & 0x01);
         }
     }

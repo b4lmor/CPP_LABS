@@ -4,10 +4,15 @@ project(LAB1
 	DESCRIPTION "NSU LABS FIT 3 SEMESTER"
 	LANGUAGES CXX)
 
+add_subdirectory(googletest)
+
 set(PROJECT_SOURCES
         src/main.cpp
 		src/BitArray.h
 		src/BitArray.cpp
+		test/test.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+target_link_libraries(${PROJECT_NAME} gtest gtest_main)
+

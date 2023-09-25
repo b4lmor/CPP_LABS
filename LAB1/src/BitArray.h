@@ -13,6 +13,8 @@
 #define CELL_SIZE 8
 #define CELL_TYPE unsigned char
 
+#define MIN(a, b) ((a < b) ? a : b)
+
 typedef struct bits_s {
     std::vector<CELL_TYPE> bit_vector;
     uint16_t last_bit = 0;
