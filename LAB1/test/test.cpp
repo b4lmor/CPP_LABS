@@ -50,7 +50,7 @@ TEST(BitArrayTests, Clear) {
     ASSERT_TRUE(bitArray.to_string().empty());
 }
 
-TEST(BitArrayTests, PushBack) {
+TEST(BitArrayTests, PushBack_and_Size_and_ToString) {
     BitArray bitArray = BitArray(2, 8);
     bitArray.push_back(true);
     bitArray.push_back(false);
@@ -106,4 +106,73 @@ TEST(BitArrayTests, Count) {
     ASSERT_EQ(bitArray.count(), 5);
     bitArray = BitArray(4, 255);
     ASSERT_EQ(bitArray.count(), 8);
+}
+
+TEST(BitArrayTests, Inversion) {
+    BitArray bitArray = BitArray(2, 1023);
+    BitArray bitArray_inv = ~bitArray;
+    ASSERT_TRUE(bitArray_inv.to_string() == "0000000000111111");
+}
+
+TEST(BitArrayTests, SqBrackets) {
+    BitArray bitArray = BitArray(1, 31);
+    ASSERT_EQ(bitArray[0], true);
+    ASSERT_EQ(bitArray[1], true);
+    ASSERT_EQ(bitArray[2], true);
+    ASSERT_EQ(bitArray[3], true);
+    ASSERT_EQ(bitArray[4], true);
+    ASSERT_EQ(bitArray[5], false);
+    ASSERT_EQ(bitArray[6], false);
+    ASSERT_EQ(bitArray[7], false);
+}
+
+TEST(BitArrayTests, Equals) {
+    BitArray bitArray1 = BitArray(2, 1023);
+    BitArray bitArray2 = BitArray(2, 1023);
+    ASSERT_TRUE(bitArray1 == bitArray2);
+}
+
+TEST(BitArrayTests, NotEquals) {
+    BitArray bitArray1 = BitArray(2, 1022);
+    BitArray bitArray2 = BitArray(2, 1023);
+    ASSERT_TRUE(bitArray1 != bitArray2);
+}
+
+TEST(BitArrayTests, Conjunction) {
+    BitArray bitArray1 = BitArray(1, 63);
+    BitArray bitArray2 = BitArray(1, 31);
+    ASSERT_TRUE((bitArray1 & bitArray2) == bitArray2);
+}
+
+TEST(BitArrayTests, Disjunction) {
+    BitArray bitArray1 = BitArray(1, 63);
+    BitArray bitArray2 = BitArray(1, 31);
+    ASSERT_TRUE((bitArray1 | bitArray2) == bitArray1);
+}
+
+TEST(BitArrayTests, XOR) {
+    BitArray bitArray1 = BitArray(1, 63);
+    BitArray bitArray2 = BitArray(1, 31);
+    ASSERT_TRUE((bitArray1 ^ bitArray2).to_string() == "00000100");
+}
+
+TEST(BitArrayTests, EqConjunction) {
+    BitArray bitArray1 = BitArray(1, 63);
+    BitArray bitArray2 = BitArray(1, 31);
+    bitArray1 &= bitArray2;
+    ASSERT_TRUE(bitArray1 == bitArray2);
+}
+
+TEST(BitArrayTests, EqDisjunction) {
+    BitArray bitArray1 = BitArray(1, 63);
+    BitArray bitArray2 = BitArray(1, 31);
+    bitArray2 |= bitArray1;
+    ASSERT_TRUE(bitArray1 == bitArray2);
+}
+
+TEST(BitArrayTests, EqXOR) {
+    BitArray bitArray1 = BitArray(1, 63);
+    BitArray bitArray2 = BitArray(1, 31);
+    bitArray2 ^= bitArray1;
+    ASSERT_TRUE(bitArray2.to_string() == "00000100");
 }
