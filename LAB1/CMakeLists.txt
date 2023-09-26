@@ -7,8 +7,7 @@ project(LAB1
 add_subdirectory(googletest)
 
 set(PROJECT_SOURCES
-        src/main.cpp
-		src/BitArray.h
+        src/BitArray.h
 		src/BitArray.cpp
 		test/test.cpp
 )

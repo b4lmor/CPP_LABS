@@ -189,6 +189,54 @@ BitArray &BitArray::operator^=(const BitArray &b) {
     return *this;
 }
 
+BitArray BitArray::operator<<(int n) const {
+    BitArray shifted_bitArray = BitArray();
+    for (int i = n; i < this->size(); i++) {
+        shifted_bitArray.push_back(bool((*this)[i]));
+    }
+    for (int i = 0; i < n; i++) {
+        shifted_bitArray.push_back(false);
+    }
+    return shifted_bitArray;
+}
+
+BitArray BitArray::operator>>(int n) const {
+    BitArray shifted_bitArray = BitArray();
+    for (int i = 0; i < n; i++) {
+        shifted_bitArray.push_back(false);
+    }
+    for (int i = 0; i < MAX(0, this->size() - n); i++) {
+        shifted_bitArray.push_back(bool((*this)[i]));
+    }
+    return shifted_bitArray;
+}
+
+BitArray &BitArray::operator<<=(int n) {
+    BitArray shifted_bitArray = *this << n;
+    this->swap(shifted_bitArray);
+    return *this;
+}
+
+BitArray &BitArray::operator>>=(int n) {
+    BitArray shifted_bitArray = *this >> n;
+    this->swap(shifted_bitArray);
+    return *this;
+}
+
+void BitArray::resize(int num_bits, bool value) {
+    if (num_bits > this->size()) {
+        while (num_bits > this->size()) {
+            this->push_back(value);
+        }
+    } else {
+        BitArray resized_bitArray = BitArray();
+        for (int i = 0; i < num_bits; i++) {
+            resized_bitArray.push_back((*this)[i]);
+        }
+        this->swap(resized_bitArray);
+    }
+}
+
 bool operator==(const BitArray & a, const BitArray & b) {
     if (a.size() != b.size()) { return false; }
     for (int i = 0; i < a.size(); i++) {

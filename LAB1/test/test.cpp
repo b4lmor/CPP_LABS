@@ -14,14 +14,14 @@ TEST(BitArrayTests, EmptyConstructor) {
 TEST(BitArrayTests, ByValueConstructor) {
     BitArray bitArray = BitArray(3, 31);
     ASSERT_EQ(bitArray.size(), 3 * CELL_SIZE);
-    ASSERT_TRUE(bitArray.to_string() == "111110000000000000000000");
+    ASSERT_EQ(bitArray.to_string(), "111110000000000000000000");
 }
 
 TEST(BitArrayTests, CopyConstructor) {
     BitArray bitArray = BitArray(3, 31);
     BitArray bitArray_copy = BitArray(bitArray);
     ASSERT_EQ(bitArray_copy.size(), 3 * CELL_SIZE);
-    ASSERT_TRUE(bitArray_copy.to_string() == "111110000000000000000000");
+    ASSERT_EQ(bitArray_copy.to_string(), "111110000000000000000000");
 }
 
 TEST(BitArrayTests, Swap) {
@@ -31,8 +31,8 @@ TEST(BitArrayTests, Swap) {
 
     ASSERT_EQ(bitArray1.size(), 1 * CELL_SIZE);
     ASSERT_EQ(bitArray2.size(), 3 * CELL_SIZE);
-    ASSERT_TRUE(bitArray1.to_string() == "00010000");
-    ASSERT_TRUE(bitArray2.to_string() == "111110000000000000000000");
+    ASSERT_EQ(bitArray1.to_string(), "00010000");
+    ASSERT_EQ(bitArray2.to_string(), "111110000000000000000000");
 }
 
 TEST(BitArrayTests, Operator_eq) {
@@ -40,7 +40,7 @@ TEST(BitArrayTests, Operator_eq) {
     BitArray bitArray2 = bitArray1;
     bitArray1.push_back(true);
     ASSERT_NE(bitArray1.size(), bitArray2.size());
-    ASSERT_FALSE(bitArray1.to_string() == bitArray2.to_string());
+    ASSERT_NE(bitArray1.to_string(), bitArray2.to_string());
 }
 
 TEST(BitArrayTests, Clear) {
@@ -56,35 +56,35 @@ TEST(BitArrayTests, PushBack_and_Size_and_ToString) {
     bitArray.push_back(false);
     bitArray.push_back(true);
     ASSERT_EQ(bitArray.size(), 3 + 2 * CELL_SIZE);
-    ASSERT_TRUE(bitArray.to_string() == "0001000000000000101");
+    ASSERT_EQ(bitArray.to_string(), "0001000000000000101");
 }
 
 TEST(BitArrayTests, SetAllTrue) {
     BitArray bitArray = BitArray(2, 8);
     bitArray.set();
     ASSERT_EQ(bitArray.size(), 2 * CELL_SIZE);
-    ASSERT_TRUE(bitArray.to_string() == "1111111111111111");
+    ASSERT_EQ(bitArray.to_string(), "1111111111111111");
 }
 
 TEST(BitArrayTests, SetBit) {
     BitArray bitArray = BitArray(1, 8);
     bitArray.set(6, true);
     ASSERT_EQ(bitArray.size(), 1 * CELL_SIZE);
-    ASSERT_TRUE(bitArray.to_string() == "00010010");
+    ASSERT_EQ(bitArray.to_string(), "00010010");
 }
 
 TEST(BitArrayTests, Reset) {
     BitArray bitArray = BitArray(1, 63);
     bitArray.reset();
     ASSERT_EQ(bitArray.size(), 1 * CELL_SIZE);
-    ASSERT_TRUE(bitArray.to_string() == "00000000");
+    ASSERT_EQ(bitArray.to_string(), "00000000");
 }
 
 TEST(BitArrayTests, ResetBit) {
     BitArray bitArray = BitArray(1, 8);
     bitArray.reset(3);
     ASSERT_EQ(bitArray.size(), 1 * CELL_SIZE);
-    ASSERT_TRUE(bitArray.to_string() == "00000000");
+    ASSERT_EQ(bitArray.to_string(), "00000000");
 }
 
 TEST(BitArrayTests, Any) {
@@ -111,7 +111,7 @@ TEST(BitArrayTests, Count) {
 TEST(BitArrayTests, Inversion) {
     BitArray bitArray = BitArray(2, 1023);
     BitArray bitArray_inv = ~bitArray;
-    ASSERT_TRUE(bitArray_inv.to_string() == "0000000000111111");
+    ASSERT_EQ(bitArray_inv.to_string(), "0000000000111111");
 }
 
 TEST(BitArrayTests, SqBrackets) {
@@ -153,26 +153,68 @@ TEST(BitArrayTests, Disjunction) {
 TEST(BitArrayTests, XOR) {
     BitArray bitArray1 = BitArray(1, 63);
     BitArray bitArray2 = BitArray(1, 31);
-    ASSERT_TRUE((bitArray1 ^ bitArray2).to_string() == "00000100");
+    ASSERT_EQ((bitArray1 ^ bitArray2).to_string(), "00000100");
 }
 
 TEST(BitArrayTests, EqConjunction) {
     BitArray bitArray1 = BitArray(1, 63);
     BitArray bitArray2 = BitArray(1, 31);
     bitArray1 &= bitArray2;
-    ASSERT_TRUE(bitArray1 == bitArray2);
+    ASSERT_EQ(bitArray1, bitArray2);
 }
 
 TEST(BitArrayTests, EqDisjunction) {
     BitArray bitArray1 = BitArray(1, 63);
     BitArray bitArray2 = BitArray(1, 31);
     bitArray2 |= bitArray1;
-    ASSERT_TRUE(bitArray1 == bitArray2);
+    ASSERT_EQ(bitArray1, bitArray2);
 }
 
 TEST(BitArrayTests, EqXOR) {
     BitArray bitArray1 = BitArray(1, 63);
     BitArray bitArray2 = BitArray(1, 31);
     bitArray2 ^= bitArray1;
-    ASSERT_TRUE(bitArray2.to_string() == "00000100");
+    ASSERT_EQ(bitArray2.to_string(), "00000100");
+}
+
+TEST(BitArrayTests, LeftShift) {
+    BitArray bitArray1 = BitArray(1, 31);
+    BitArray bitArray2 = bitArray1 << 3;
+    ASSERT_EQ(bitArray2.to_string(), "11000000");
+
+    bitArray2 = bitArray1 << 100;
+    ASSERT_EQ(bitArray2.to_string(), "00000000");
+}
+
+TEST(BitArrayTests, RightShift) {
+    BitArray bitArray1 = BitArray(1, 31);
+    BitArray bitArray2 = bitArray1 >> 3;
+    ASSERT_EQ(bitArray2.to_string(), "00011111");
+
+    bitArray2 = bitArray1 >> 100;
+    ASSERT_EQ(bitArray2.to_string(), "00000000");
+}
+
+TEST(BitArrayTests, EqLeftShift) {
+    BitArray bitArray = BitArray(1, 31);
+    bitArray <<= 4;
+    ASSERT_EQ(bitArray.to_string(), "10000000");
+}
+
+TEST(BitArrayTests, EqRightShift) {
+    BitArray bitArray = BitArray(1, 31);
+    bitArray >>= 4;
+    ASSERT_EQ(bitArray.to_string(), "00001111");
+}
+
+TEST(BitArrayTests, Resize) {
+    BitArray bitArray1 = BitArray(1, 31);
+    bitArray1.resize(11, true);
+    ASSERT_EQ(bitArray1.size(), 11);
+    ASSERT_EQ(bitArray1.to_string(), "11111000111");
+
+    BitArray bitArray2 = BitArray(1, 31);
+    bitArray2.resize(5);
+    ASSERT_EQ(bitArray2.size(), 5);
+    ASSERT_EQ(bitArray2.to_string(), "11111");
 }
