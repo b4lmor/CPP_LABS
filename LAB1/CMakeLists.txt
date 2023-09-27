@@ -10,6 +10,11 @@ set(PROJECT_SOURCES
         src/BitArray.h
 		src/BitArray.cpp
 		test/test.cpp
+		src/exception/MyException.h
+		src/exception/BadBitPositionException.h
+		src/exception/DifferentSizeException.h
+		src/exception/BadCellIndexException.h
+		src/exception/AssignmentToOwnerException.h
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})

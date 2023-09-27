@@ -4,6 +4,11 @@
 
 #include "BitArray.h"
 
+#include "exception/BadBitPositionException.h"
+#include "exception/BadCellIndexException.h"
+#include "exception/AssignmentToOwnerException.h"
+#include "exception/DifferentSizeException.h"
+
 #include <exception>
 #include <utility>
 
@@ -12,9 +17,8 @@ CELL_TYPE BitArray::set_bit_in_cell(CELL_TYPE cell, uint8_t pos, bool value) {
 }
 
 void BitArray::set_bit(uint8_t cell_ind, uint8_t pos, bool value) {
-    if (pos >= CELL_SIZE) { throw std::exception(); }
-    if (cell_ind >= bits.bit_vector.size()) { throw std::exception(); }
-    // if ( (cell_ind + 1) * CELL_SIZE + (pos + 1) > this->bits.last_bit) { throw std::exception(); }
+    if (pos >= CELL_SIZE) { throw BadBitPositionException(); }
+    if (cell_ind >= bits.bit_vector.size()) { throw BadCellIndexException(); }
     bits.bit_vector[cell_ind] = set_bit_in_cell(
             bits.bit_vector[cell_ind],
             pos,
@@ -37,7 +41,7 @@ void BitArray::swap(BitArray & b) {
 }
 
 BitArray & BitArray::operator=(const BitArray & b) {
-    if (this == &b) { throw std::exception(); }
+    if (this == &b) { throw AssignmentToOwnerException(); }
     this->bits = {std::vector<CELL_TYPE>(b.bits.bit_vector),
             bits.last_bit};
     return *this;
@@ -129,7 +133,7 @@ BitArray &BitArray::set() {
 
 BitArray &BitArray::set(int n, bool val) {
     if (n >= bits.last_bit) {
-        throw std::exception();
+        throw BadBitPositionException();
     }
     this->set_bit(n / CELL_SIZE, n % CELL_SIZE, val);
     return *this;
@@ -151,7 +155,7 @@ BitArray &BitArray::reset(int n) {
 }
 
 bool BitArray::operator[](int i) const {
-    if (i >= bits.last_bit) { throw std::exception(); }
+    if (i >= bits.last_bit) { throw BadBitPositionException(); }
     return bool((1 << i % CELL_SIZE) & bits.bit_vector[i / CELL_SIZE]);
 }
 
@@ -251,7 +255,7 @@ bool operator!=(const BitArray & a, const BitArray & b) {
 
 BitArray operator&(const BitArray & b1, const BitArray & b2) {
     BitArray conj_bitArray = BitArray();
-    if (b1.size() != b2.size()) { throw std::exception(); }
+    if (b1.size() != b2.size()) { throw DifferentSizeException(); }
     for (int i = 0; i < b1.size(); i++) {
         conj_bitArray.push_back(bool(b1[i] && b2[i]));
     }
@@ -260,7 +264,7 @@ BitArray operator&(const BitArray & b1, const BitArray & b2) {
 
 BitArray operator|(const BitArray & b1, const BitArray & b2) {
     BitArray conj_bitArray = BitArray();
-    if (b1.size() != b2.size()) { throw std::exception(); }
+    if (b1.size() != b2.size()) { throw DifferentSizeException(); }
     for (int i = 0; i < b1.size(); i++) {
         conj_bitArray.push_back(bool(b1[i] || b2[i]));
     }
@@ -269,7 +273,7 @@ BitArray operator|(const BitArray & b1, const BitArray & b2) {
 
 BitArray operator^(const BitArray & b1, const BitArray & b2) {
     BitArray conj_bitArray = BitArray();
-    if (b1.size() != b2.size()) { throw std::exception(); }
+    if (b1.size() != b2.size()) { throw DifferentSizeException(); }
     for (int i = 0; i < b1.size(); i++) {
         conj_bitArray.push_back(bool(b1[i] != b2[i]));
     }
