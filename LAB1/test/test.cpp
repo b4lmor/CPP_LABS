@@ -218,3 +218,11 @@ TEST(BitArrayTests, Resize) {
     ASSERT_EQ(bitArray2.size(), 5);
     ASSERT_EQ(bitArray2.to_string(), "11111");
 }
+
+TEST(BitArrayTests, Empty) {
+    BitArray bitArray1 = BitArray(1, 31);
+    ASSERT_EQ(bitArray1.empty(), false);
+
+    BitArray bitArray2 = BitArray();
+    ASSERT_EQ(bitArray2.empty(), true);
+}

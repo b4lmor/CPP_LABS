@@ -10,11 +10,8 @@
 #include <cstdint>
 #include <algorithm>
 
-#define CELL_SIZE 8
 #define CELL_TYPE unsigned char
-
-#define MIN(a, b) ((a < b) ? a : b)
-#define MAX(a, b) ((a > b) ? a : b)
+#define CELL_SIZE (sizeof(CELL_TYPE) * 8)
 
 typedef struct bits_s {
     std::vector<CELL_TYPE> bit_vector;

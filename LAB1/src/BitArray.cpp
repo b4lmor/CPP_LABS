@@ -9,8 +9,10 @@
 #include "exception/AssignmentToOwnerException.h"
 #include "exception/DifferentSizeException.h"
 
-#include <exception>
 #include <utility>
+
+#define MIN(a, b) ((a < b) ? a : b)
+#define MAX(a, b) ((a > b) ? a : b)
 
 CELL_TYPE BitArray::set_bit_in_cell(CELL_TYPE cell, uint8_t pos, bool value) {
     return value ? (cell | (1 << pos)) : (cell & ~(1 << pos));
@@ -61,7 +63,7 @@ void BitArray::push_back(bool bit) {
         create_empty_cell();
     }
     set_bit(bits.last_bit / CELL_SIZE,
-            bits.last_bit % CELL_SIZE, // + 1?
+            bits.last_bit % CELL_SIZE,
             bit);
     bits.last_bit++;
 }
@@ -107,6 +109,7 @@ std::string BitArray::to_string() const {
             str_bits += std::to_string((cell >> i) & 0x01);
         }
     }
+    return str_bits;
 }
 
 BitArray::BitArray(int num_bits, unsigned long value) {
@@ -129,6 +132,7 @@ BitArray &BitArray::set() {
             this->set_bit(j, i, true);
         }
     }
+    return *this;
 }
 
 BitArray &BitArray::set(int n, bool val) {
@@ -148,6 +152,7 @@ BitArray &BitArray::reset() {
             this->set_bit(j, i, false);
         }
     }
+    return *this;
 }
 
 BitArray &BitArray::reset(int n) {
@@ -173,6 +178,7 @@ BitArray BitArray::operator~() const {
                                  );
         }
     }
+    return inv_bitArray;
 }
 
 BitArray &BitArray::operator&=(const BitArray &b) {
