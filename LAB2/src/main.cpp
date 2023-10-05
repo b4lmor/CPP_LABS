@@ -1,6 +1,9 @@
-#include <iostream>
+#include "utils/GameArgs.h"
+#include "game/GameFactory.h"
 
 int main(int argc, char * argv[]) {
-	std::cout << "Hello world!" << std::endl;
+	GameArgs args = GameArgs(argc, argv);
+    AGame * game = get_game_by_args(args);
+    game->run_game();
 	return 0;
 }
