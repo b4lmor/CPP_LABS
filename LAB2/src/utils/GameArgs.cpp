@@ -70,5 +70,8 @@ GameArgs::GameArgs(int argc, char * argv[]) {
     if (mode_name.empty()) {
         mode_name = "detailed";
     }
+    if (configs_dir_path.empty()) {
+        configs_dir_path = "/home/afox/Documents/Work/NSU/CPP_LABS/LAB2/configs";
+    }
 }
 
