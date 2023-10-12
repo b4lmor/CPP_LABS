@@ -13,12 +13,11 @@ private:
     Prisoner prisoner2;
     Prisoner prisoner3;
     GameMatrix matrix;
-    history_t history;
     int steps;
 public:
     DetailedGame(const Prisoner& p1, const Prisoner& p2, const Prisoner& p3,
                  const GameMatrix & mtrx, int s);
-    void run_game() override;
+    games_t run_game() override;
 };
 
 #endif //LAB2_DETAILEDGAME_H

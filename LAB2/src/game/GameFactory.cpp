@@ -35,5 +35,5 @@ AGame * get_game_by_args(GameArgs args) {
                     args.get_configs_dir_path()
             );
     }
+    throw std::exception();
 }
-

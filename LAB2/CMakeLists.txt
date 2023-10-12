@@ -30,8 +30,6 @@ set(PROJECT_SOURCES
 		src/utils/my_types/MyTypes.h
 		src/game/impl/DetailedGame.cpp
 		src/game/impl/DetailedGame.h
-		src/game/renderer/GameRenderer.h
-		src/game/renderer/GameRenderer.cpp
 		src/strategy/impl/RandomStrategy.cpp
 		src/strategy/impl/RandomStrategy.h
 		src/utils/GameArgs.cpp
@@ -43,7 +41,14 @@ set(PROJECT_SOURCES
 		src/utils/combinations_utils.h
 		src/game/impl/TournamentGame.cpp
 		src/game/impl/TournamentGame.h
+		src/strategy/impl/BonafideStrategy.cpp
+		src/strategy/impl/BonafideStrategy.h
+		src/strategy/impl/MimickerStrategy.cpp
+		src/strategy/impl/MimickerStrategy.h
+		src/strategy/impl/CombinedStrategy.cpp
+		src/strategy/impl/CombinedStrategy.h
+		src/renderer/GameRenderer.cpp
+		src/renderer/GameRenderer.h
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
-

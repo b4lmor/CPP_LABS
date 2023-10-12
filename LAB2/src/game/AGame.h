@@ -25,7 +25,8 @@ typedef struct prisoners {
 
 class AGame {
 public:
-    virtual void run_game() = 0;
+    virtual games_t run_game() = 0;
+    virtual ~AGame()=default;
 };
 
 #endif //LAB2_AGAME_H

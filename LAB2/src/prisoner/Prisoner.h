@@ -10,21 +10,22 @@
 
 #include <string>
 #include <utility>
+#include <memory>
 
 class Prisoner {
-    AStrategy * strategy;
+    std::shared_ptr<AStrategy> strategy;
     std::string configs_file_path;
     int points = 0;
     int prisoner_index;
 public:
     Prisoner(const std::string & strategy_id, int p_ind);
     Prisoner(const std::string & strategy_id, int p_ind, std::string & cfg_path);
+    Prisoner() = default;
+    ~Prisoner();
     Choice make_choice(history_t history);
     int get_points();
     void add_points(int p);
     std::string get_strategy_name();
-    ~Prisoner();
-    Prisoner() = default;
 };
 
 

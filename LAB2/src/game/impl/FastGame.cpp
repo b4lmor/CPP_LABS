@@ -4,16 +4,14 @@
 
 #include "FastGame.h"
 
-//
-// Created by afox on 10/2/23.
-//
-
-#include "FastGame.h"
-#include "../renderer/GameRenderer.h"
-
-void FastGame::run_game() {
+games_t FastGame::run_game() {
     Choice c1, c2, c3;
     int income1, income2, income3;
+    history_t history;
+    history.prisoner_name1 = prisoner1.get_strategy_name();
+    history.prisoner_name2 = prisoner2.get_strategy_name();
+    history.prisoner_name3 = prisoner3.get_strategy_name();
+    games_t games;
     for (int round = 0; round < steps; round++) {
         c1 = prisoner1.make_choice(history);
         c2 = prisoner2.make_choice(history);
@@ -27,15 +25,13 @@ void FastGame::run_game() {
         prisoner2.add_points(income2);
         prisoner3.add_points(income3);
 
-        history.emplace_back(c1, c2, c3);
+        history.add_move(c1, c2, c3,
+                         prisoner1.get_points(),
+                         prisoner2.get_points(),
+                         prisoner3.get_points());
     }
-    render_game_results(prisoner1.get_points(),
-                        prisoner2.get_points(),
-                        prisoner3.get_points(),
-                        prisoner1.get_strategy_name(),
-                        prisoner2.get_strategy_name(),
-                        prisoner3.get_strategy_name(),
-                        steps);
+    games.add_game_history(history);
+    return games;
 }
 
 FastGame::FastGame(const Prisoner& p1, const Prisoner& p2, const Prisoner& p3,
