@@ -53,7 +53,7 @@ games_t TournamentGame::run_game() {
         points[triple[1]] += prisoner2.get_points();
         points[triple[2]] += prisoner3.get_points();
     }
-    games.points = points;
+    games.points = std::shared_ptr<int>(points);
     games.prisoner_names = prisoner_names;
     return games;
 }

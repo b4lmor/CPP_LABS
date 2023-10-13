@@ -97,10 +97,10 @@ void GameRenderer::render_tournament_game(games_t games) {
                 game_history.prisoner_name3
         );
     }
-    int winner_index = (int) std::distance(games.points, std::max_element(games.points, games.points + games.prisoner_names.size()));
+    int winner_index = (int) std::distance(games.points.get(), std::max_element(games.points.get(), games.points.get() + games.prisoner_names.size()));
     std::cout << "WINNER: " << games.prisoner_names[winner_index] << " (#" << winner_index + 1 << ")" << std::endl;
     for (int i = 0; i < games.prisoner_names.size(); i++) {
-        std::cout << games.prisoner_names[i] << " | " << games.points[i] << std::endl;
+        std::cout << games.prisoner_names[i] << " | " << games.points.get()[i] << std::endl;
     }
 
 }

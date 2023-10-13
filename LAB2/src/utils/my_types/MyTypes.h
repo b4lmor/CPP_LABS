@@ -7,6 +7,7 @@
 
 #include <utility>
 #include <vector>
+#include <memory>
 #include "../enum/Choice.h"
 
 typedef struct Move {
@@ -42,7 +43,7 @@ typedef struct history {
 
 typedef struct games {
     std::vector<history_t> games_history;
-    int * points = nullptr;
+    std::shared_ptr<int> points;
     std::vector<std::string> prisoner_names;
     void add_game_history(const history_t& h) {
         games_history.push_back(h);
