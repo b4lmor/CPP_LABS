@@ -9,6 +9,7 @@
 #include <vector>
 #include <cstdint>
 #include <algorithm>
+#include "enum/operation.h"
 
 #define CELL_TYPE unsigned char
 #define CELL_SIZE (sizeof(CELL_TYPE) * 8)
@@ -30,8 +31,9 @@ public:
     ~BitArray() = default;
 
     //Конструирует массив, хранящий заданное количество бит.
-    //Первые sizeof(long) бит можно инициализровать с помощью параметра value.
-    explicit BitArray(int num_bits, unsigned long value = 0);
+    //Первые sizeof(long) бит * 8 можно инициализровать с помощью параметра value.
+    explicit BitArray(int num_bytes, unsigned long value = 0);
+    // BitArray(int num_bits, uns long val = 0)
     BitArray(const BitArray & b);
 
 
@@ -80,7 +82,7 @@ public:
     //true, если все биты массива ложны.
     [[nodiscard]] bool none() const;
     //Битовая инверсия
-    BitArray operator~() const;
+    BitArray operator~();
     //Подсчитывает количество единичных бит.
     [[nodiscard]] int count() const;
 

@@ -15,6 +15,7 @@ set(PROJECT_SOURCES
 		src/exception/DifferentSizeException.h
 		src/exception/BadCellIndexException.h
 		src/exception/AssignmentToOwnerException.h
+        src/enum/operation.h
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})

@@ -99,7 +99,7 @@ public:
   bool empty() const;
 
   //Возвращает строковое представление массива.
-  std::string to_string() const;
+  std::string choice_to_string() const;
 };
 
 bool operator==(const BitArray & a, const BitArray & b);
