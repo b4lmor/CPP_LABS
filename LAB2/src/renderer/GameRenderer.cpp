@@ -56,27 +56,15 @@ void GameRenderer::render_game(GameArgs args, const games_t& games) {
 void GameRenderer::render_detailed_game(games_t games) {
     history_t game_history = games.games_history[0];
     for (int step = 0; step < game_history.moves.size(); step++) {
-        if (step == 0) {
-            render_round(step,
-                         game_history.moves[step],
-                         game_history.moves[step].points1,
-                         game_history.moves[step].points2,
-                         game_history.moves[step].points3,
-                         game_history.prisoner_name1,
-                         game_history.prisoner_name2,
-                         game_history.prisoner_name3
-                         );
-        } else {
-            render_round(step,
-                         game_history.moves[step],
-                         game_history.moves[step].points1 - game_history.moves[step - 1].points1,
-                         game_history.moves[step].points2 - game_history.moves[step - 1].points2,
-                         game_history.moves[step].points3 - game_history.moves[step - 1].points3,
-                         game_history.prisoner_name1,
-                         game_history.prisoner_name2,
-                         game_history.prisoner_name3
-            );
-        }
+        render_round(step,
+                     game_history.moves[step],
+                     game_history.moves[step].points1 - ((step == 0) ? 0 : game_history.moves[step - 1].points1),
+                     game_history.moves[step].points2 - ((step == 0) ? 0 : game_history.moves[step - 1].points2),
+                     game_history.moves[step].points3 - ((step == 0) ? 0 : game_history.moves[step - 1].points3),
+                     game_history.prisoner_name1,
+                     game_history.prisoner_name2,
+                     game_history.prisoner_name3
+        );
     }
     render_results(
             game_history.moves[game_history.moves.size() - 1],
@@ -97,8 +85,11 @@ void GameRenderer::render_tournament_game(games_t games) {
                 game_history.prisoner_name3
         );
     }
+
     int winner_index = (int) std::distance(games.points.get(), std::max_element(games.points.get(), games.points.get() + games.prisoner_names.size()));
+
     std::cout << "WINNER: " << games.prisoner_names[winner_index] << " (#" << winner_index + 1 << ")" << std::endl;
+
     for (int i = 0; i < games.prisoner_names.size(); i++) {
         std::cout << games.prisoner_names[i] << " | " << games.points.get()[i] << std::endl;
     }

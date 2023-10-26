@@ -17,7 +17,10 @@ static void parse_line(int * p1, int * p2, int * p3,
     line += ' ';
     int cnt = 0;
     for (char ch : line) {
-        if (!isalnum(ch) && num.empty()) { continue; }
+        if (!isalnum(ch) && num.empty()) {
+            continue;
+        }
+
         if (cnt < 3) {
             switch (cnt) {
                 case 0: *c1 = get_choice_by_char(ch); break;
@@ -51,7 +54,7 @@ GameMatrix::GameMatrix(std::string file_path) {
         if (!compare_with_pattern(buf,
                                   MATRIX_LINE_REGEX)) {
             throw std::exception();
-        } // TODO : special exception
+        }
         Choice c1, c2, c3;
         int p1, p2, p3;
         parse_line(&p1, &p2, &p3, &c1, &c2, &c3, buf);

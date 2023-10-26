@@ -12,6 +12,7 @@ games_t FastGame::run_game() {
     history.prisoner_name2 = prisoner2.get_strategy_name();
     history.prisoner_name3 = prisoner3.get_strategy_name();
     games_t games;
+
     for (int round = 0; round < steps; round++) {
         c1 = prisoner1.make_choice(history);
         c2 = prisoner2.make_choice(history);

@@ -9,7 +9,10 @@
 
 AGame * get_game_by_args(GameArgs args) {
     std::string mode_name = args.get_mode_name();
-    std::string configs_dir_path(args.get_configs_dir_path());
+    std::string configs_dir_path(
+            args.get_configs_dir_path()
+            );
+
     switch (get_mode_by_string(mode_name)) {
         case GameMode::DETAILED:
             return new DetailedGame(

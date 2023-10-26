@@ -18,7 +18,7 @@ Choice CombinedStrategy::make_choice(int prisoner_index, history_t history) {
     switch (strategy_id) {
         case 0: strategy = std::unique_ptr<AStrategy>(get_strategy_by_id(ALTRUIST_STRATEGY_NAME)); break;
         case 1: strategy = std::unique_ptr<AStrategy>(get_strategy_by_id(BETRAYER_STRATEGY_NAME)); break;
-        case 2: strategy = std::unique_ptr<AStrategy>(get_strategy_by_id(RANDOM_STRATEGY_NAME)); break;
+        case 2: strategy = std::unique_ptr<AStrategy>(get_strategy_by_id(RANDOM_STRATEGY_NAME));   break;
         case 3: strategy = std::unique_ptr<AStrategy>(get_strategy_by_id(BONAFIDE_STRATEGY_NAME)); break;
         case 4: strategy = std::unique_ptr<AStrategy>(get_strategy_by_id(MIMICKER_STRATEGY_NAME)); break;
         default: return Defect;
