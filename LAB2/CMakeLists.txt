@@ -4,6 +4,8 @@ project(LAB2
 	DESCRIPTION "NSU LABS FIT 3 SEMESTER"
 	LANGUAGES CXX)
 
+add_subdirectory(googletest)
+
 set(PROJECT_SOURCES
         src/main.cpp
 		src/utils/GameArgs.h
@@ -49,6 +51,8 @@ set(PROJECT_SOURCES
 		src/strategy/impl/CombinedStrategy.h
 		src/renderer/GameRenderer.cpp
 		src/renderer/GameRenderer.h
+		test/strategytest/StrategyTest.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+target_link_libraries(${PROJECT_NAME} gtest gtest_main)
