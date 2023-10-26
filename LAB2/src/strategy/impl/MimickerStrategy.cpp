@@ -8,7 +8,7 @@
 #define MAX3(a, b, c) (MAX2( MAX2(a, b), c ))
 
 Choice MimickerStrategy::make_choice(int prisoner_index, history_t history) {
-    if (history.moves.size() < 2) {
+    if (history.moves.empty()) {
         return Defect;
     }
 

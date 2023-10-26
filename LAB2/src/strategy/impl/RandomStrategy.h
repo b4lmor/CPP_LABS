@@ -10,6 +10,7 @@
 #define RANDOM_STRATEGY_NAME "randomer"
 
 class RandomStrategy : public AStrategy{
+public:
     Choice make_choice(int prisoner_index, history_t history) override;
     std::string get_name() override;
 };

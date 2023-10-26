@@ -5,7 +5,7 @@
 #include "BonafideStrategy.h"
 
 Choice BonafideStrategy::make_choice(int prisoner_index, history_t history) {
-    if (history.moves.size() < 2) {
+    if (history.moves.empty()) {
         return Cooperate;
     }
 

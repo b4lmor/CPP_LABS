@@ -52,6 +52,8 @@ set(PROJECT_SOURCES
 		src/renderer/GameRenderer.cpp
 		src/renderer/GameRenderer.h
 		test/strategytest/StrategyTest.cpp
+		test/matrixtest/MatrixTest.cpp
+		test/gametest/GameTest.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
