@@ -1,0 +1,5 @@
+mix $2 10
+
+mute 3 5
+
+compress 90%
