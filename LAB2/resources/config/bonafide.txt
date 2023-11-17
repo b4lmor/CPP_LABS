@@ -1,0 +1,2 @@
+# let start choice be defect
+start_choice:defect
