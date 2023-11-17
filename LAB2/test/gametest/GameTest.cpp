@@ -9,12 +9,14 @@
 #include "../../src/game/impl/FastGame.h"
 #include "../../src/game/impl/TournamentGame.h"
 
+#define CONFIG_PATH "/home/afox/Documents/Work/NSU/CPP_LABS/LAB2/resources/config"
+
 TEST(GameTest, DetailedGame) {
     GameMatrix matrix;
     int steps = 3;
-    Prisoner p1("altruist", 0);
-    Prisoner p2("altruist", 1);
-    Prisoner p3("betrayer", 2);
+    Prisoner p1("altruist", 0, CONFIG_PATH);
+    Prisoner p2("altruist", 1, CONFIG_PATH);
+    Prisoner p3("betrayer", 2, CONFIG_PATH);
 
     DetailedGame game(p1, p2, p3, matrix, steps);
 
@@ -46,9 +48,9 @@ TEST(GameTest, DetailedGame) {
 TEST(GameTest, FastGame) {
     GameMatrix matrix;
     int steps = 3;
-    Prisoner p1("altruist", 0);
-    Prisoner p2("altruist", 1);
-    Prisoner p3("betrayer", 2);
+    Prisoner p1("altruist", 0, CONFIG_PATH);
+    Prisoner p2("altruist", 1, CONFIG_PATH);
+    Prisoner p3("betrayer", 2, CONFIG_PATH);
 
     FastGame game(p1, p2, p3, matrix, steps);
 

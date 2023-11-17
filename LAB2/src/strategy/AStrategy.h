@@ -16,6 +16,7 @@ class AStrategy {
 public:
     virtual Choice make_choice(int prisoner_index, history_t history) = 0;
     virtual std::string get_name() = 0;
+    virtual void apply_config(const std::string &config_path) = 0;
     virtual ~AStrategy() = default;
 };
 

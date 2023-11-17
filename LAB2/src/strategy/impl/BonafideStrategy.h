@@ -13,8 +13,9 @@ class BonafideStrategy : public AStrategy {
 public:
     Choice make_choice(int prisoner_index, history_t history) override;
     std::string get_name() override;
+    void apply_config(const std::string &config_path) override;
 private:
-    int isDefectFromOther(int prisoner_index, int choicer_index, Choice choice);
+    Choice start_choice = Cooperate;
 };
 
 

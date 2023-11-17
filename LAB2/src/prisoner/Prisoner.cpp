@@ -7,11 +7,6 @@
 
 #include <utility>
 
-Prisoner::Prisoner(const std::string & strategy_id, int p_ind) {
-    prisoner_index = p_ind;
-    strategy = std::shared_ptr<AStrategy>(get_strategy_by_id(strategy_id));
-}
-
 Choice Prisoner::make_choice(history_t history) {
     return strategy->make_choice(prisoner_index, std::move(history));
 }
@@ -28,10 +23,12 @@ std::string Prisoner::get_strategy_name() {
     return strategy->get_name();
 }
 
-Prisoner::Prisoner(const std::string &strategy_id, int p_ind, std::string &cfg_path) {
+Prisoner::Prisoner(const std::string &strategy_id, int p_ind, const std::string &cfg_path) {
     prisoner_index = p_ind;
     strategy = std::shared_ptr<AStrategy>(get_strategy_by_id(strategy_id));
-    configs_file_path = cfg_path;
+    if (!cfg_path.empty()) {
+        strategy->apply_config(cfg_path);
+    }
 }
 
 Prisoner::~Prisoner() = default;

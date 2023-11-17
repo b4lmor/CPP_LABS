@@ -13,6 +13,7 @@ class BetrayerStrategy : public AStrategy {
 public:
     Choice make_choice(int prisoner_index, history_t history) override;
     std::string get_name() override;
+    void apply_config(const std::string &config_path) override {}
 };
 
 
