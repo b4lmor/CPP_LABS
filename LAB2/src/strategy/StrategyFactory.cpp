@@ -2,6 +2,7 @@
 // Created by afox on 10/2/23.
 //
 
+#include <stdexcept>
 #include "StrategyFactory.h"
 #include "impl/AltruistStrategy.h"
 #include "impl/BetrayerStrategy.h"
@@ -24,6 +25,6 @@ AStrategy * get_strategy_by_id(const std::string & name) {
     } else if (name == COMBINED_STRATEGY_NAME) {
         return new CombinedStrategy();
     } else {
-        throw std::exception();
+        throw std::runtime_error("bad strategy name");
     }
 }

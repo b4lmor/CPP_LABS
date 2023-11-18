@@ -5,21 +5,18 @@
 #ifndef LAB2_GAMEMATRIX_H
 #define LAB2_GAMEMATRIX_H
 
-#include <map>
-#include <tuple>
+#include <set>
 #include <string>
 
 #include "../utils/enum/Choice.h"
 #include "../utils/my_types/MyTypes.h"
 
-#define MATRIX_LINE_REGEX R"(([CD]  [CD]  [CD]  =>  \d+  \d+  \d+))"
+#define MATRIX_LINE_REGEX R"(([CD])  ([CD])  ([CD])  =>  (\d+)  (\d+)  (\d+))"
 
 class GameMatrix {
-    std::map<choices_t, points_t> matrix;
-    points_t get_points(Choice c1, Choice c2, Choice c3);
-    int get_points_for_first(Choice c1, Choice c2, Choice c3);
-    int get_points_for_second(Choice c1, Choice c2, Choice c3);
-    int get_points_for_third(Choice c1, Choice c2, Choice c3);
+    int matrix[2][2][2][3] = { 0 };
+    static void update_matrix(
+            int arr[2][2][2][3], std::string input, std::set<int> * lines);
 public:
     explicit GameMatrix(std::string file_path);
     GameMatrix();

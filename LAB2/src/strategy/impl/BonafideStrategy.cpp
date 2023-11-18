@@ -3,6 +3,7 @@
 //
 
 #include "BonafideStrategy.h"
+#include "../../utils/file_utils/file_basic.h"
 
 #include <regex>
 #include <fstream>
@@ -17,7 +18,7 @@ static Choice get_own_choice(int index, move_t move) {
         case 1: return move.choice1;
         case 2: return move.choice2;
         case 3: return move.choice3;
-        default: throw std::exception();
+        default: throw std::runtime_error("invalid prisoner index");
     }
 }
 
@@ -52,11 +53,8 @@ void BonafideStrategy::apply_config(const std::string &config_path) {
 
     std::string full_config_path = ss.str();
 
-    std::ifstream file(full_config_path);
-
-    if (!file.is_open()) {
-        throw std::exception();
-    }
+    std::ifstream file;
+    open_in_file(file, full_config_path);
 
     std::string line;
     while (std::getline(file, line)) {

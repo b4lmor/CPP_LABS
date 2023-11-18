@@ -13,10 +13,9 @@ private:
     Prisoner prisoner2;
     Prisoner prisoner3;
     GameMatrix matrix;
-    int steps;
 public:
     DetailedGame(const Prisoner& p1, const Prisoner& p2, const Prisoner& p3,
-                 const GameMatrix & mtrx, int s);
+                 const GameMatrix & mtrx);
     games_t run_game() override;
 };
 

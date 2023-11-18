@@ -11,14 +11,19 @@ void GameRenderer::render_round(int step, const move_t& move,
                                 int income1, int income2, int income3,
                                 const std::string& name1, const std::string& name2, const std::string& name3) {
     std::cout << "round #"<< step + 1 << std::endl;
-    std::cout << name1 << " | " << choice_to_string(move.choice1) << " | " << move.points1 << " (+" << income1 << ")" << std::endl;
-    std::cout << name2 << " | " << choice_to_string(move.choice2) << " | " << move.points2 << " (+" << income2 << ")" << std::endl;
-    std::cout << name3 << " | " << choice_to_string(move.choice3) << " | " << move.points3 << " (+" << income3 << ")" << std::endl;
-    getchar();
+
+    std::cout << name1 << " | " << choice_to_string(move.choice1)
+    << " | " << move.points1 << " (+" << income1 << ")" << std::endl;
+    std::cout << name2 << " | " << choice_to_string(move.choice2)
+    << " | " << move.points2 << " (+" << income2 << ")" << std::endl;
+    std::cout << name3 << " | " << choice_to_string(move.choice3)
+    << " | " << move.points3 << " (+" << income3 << ")" << std::endl;
 }
 
 void GameRenderer::render_results(const move_t& last_move, int steps,
-                                  const std::string& name1, const std::string& name2, const std::string& name3) {
+                                  const std::string& name1,
+                                  const std::string& name2,
+                                  const std::string& name3) {
     std::cout << "rounds: " << steps << std::endl;
     std::cout << name1 << " | " << last_move.points1 << std::endl;
     std::cout << name2 << " | " << last_move.points2 << std::endl;
@@ -55,17 +60,6 @@ void GameRenderer::render_game(GameArgs args, const games_t& games) {
 
 void GameRenderer::render_detailed_game(games_t games) {
     history_t game_history = games.games_history[0];
-    for (int step = 0; step < game_history.moves.size(); step++) {
-        render_round(step,
-                     game_history.moves[step],
-                     game_history.moves[step].points1 - ((step == 0) ? 0 : game_history.moves[step - 1].points1),
-                     game_history.moves[step].points2 - ((step == 0) ? 0 : game_history.moves[step - 1].points2),
-                     game_history.moves[step].points3 - ((step == 0) ? 0 : game_history.moves[step - 1].points3),
-                     game_history.prisoner_name1,
-                     game_history.prisoner_name2,
-                     game_history.prisoner_name3
-        );
-    }
     render_results(
             game_history.moves[game_history.moves.size() - 1],
             (int) game_history.moves.size(),
@@ -73,6 +67,26 @@ void GameRenderer::render_detailed_game(games_t games) {
             game_history.prisoner_name2,
             game_history.prisoner_name3
     );
+}
+
+static std::vector<int> find_max_indices(const int* arr, int size) {
+
+    std::vector<int> maxIndices;
+    int max = arr[0];
+
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == max) {
+            maxIndices.push_back(i);
+        }
+    }
+
+    return maxIndices;
 }
 
 void GameRenderer::render_tournament_game(games_t games) {
@@ -86,12 +100,19 @@ void GameRenderer::render_tournament_game(games_t games) {
         );
     }
 
-    int winner_index = (int) std::distance(games.points.get(), std::max_element(games.points.get(), games.points.get() + games.prisoner_names.size()));
+    auto winners = find_max_indices(
+            games.points.get(), games.prisoner_names.size());
 
-    std::cout << "WINNER: " << games.prisoner_names[winner_index] << " (#" << winner_index + 1 << ")" << std::endl;
+    std::cout << "WINNER(S): ";
+    for (auto winner_index : winners) {
+        std::cout << games.prisoner_names[winner_index]
+        << "(#" << winner_index + 1 << ") ";
+    }
+    std::cout << std::endl;
 
     for (int i = 0; i < games.prisoner_names.size(); i++) {
-        std::cout << games.prisoner_names[i] << " | " << games.points.get()[i] << std::endl;
+        std::cout << games.prisoner_names[i] << " | "
+        << games.points.get()[i] << std::endl;
     }
 
 }

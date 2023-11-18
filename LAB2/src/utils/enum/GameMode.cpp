@@ -5,6 +5,7 @@
 #include "GameMode.h"
 
 #include <exception>
+#include <stdexcept>
 
 GameMode get_mode_by_string(std::string & str) {
         if (str == "detailed") {
@@ -14,6 +15,6 @@ GameMode get_mode_by_string(std::string & str) {
         } else if (str == "tournament") {
             return GameMode::TOURNAMENT;
         } else {
-            throw std::exception();
+            throw std::runtime_error("invalid game mode");
         }
 }

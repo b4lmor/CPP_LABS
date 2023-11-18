@@ -57,7 +57,7 @@ GameArgs::GameArgs(int argc, char * argv[]) {
                                                R"(--matrix=)",
                                                "");
         } else {
-            throw std::exception();
+            throw std::runtime_error("bad argument");
         }
     }
 

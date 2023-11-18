@@ -10,83 +10,71 @@
 #include <fstream>
 #include <string>
 
-static void parse_line(int * p1, int * p2, int * p3,
-                       Choice * c1, Choice * c2, Choice * c3,
-                       std::string & line) {
-    std::string num;
-    line += ' ';
-    int cnt = 0;
-    for (char ch : line) {
-        if (!isalnum(ch) && num.empty()) {
-            continue;
+void GameMatrix::update_matrix(
+        int arr[2][2][2][3], std::string input, std::set<int> * lines) {
+    std::regex pattern(MATRIX_LINE_REGEX);
+    std::smatch matches;
+
+    if (std::regex_match(input, matches, pattern)) {
+        int letter_indices[3];
+        for (int i = 0; i < 3; i++) {
+            if (matches[i + 1] == "C") {
+                letter_indices[i] = 0;
+            } else {
+                letter_indices[i] = 1;
+            }
         }
 
-        if (cnt < 3) {
-            switch (cnt) {
-                case 0: *c1 = get_choice_by_char(ch); break;
-                case 1: *c2 = get_choice_by_char(ch); break;
-                case 2: *c3 = get_choice_by_char(ch); break;
-            }
-        } else {
-            if (isdigit(ch)) {
-                num.push_back(ch);
-                continue;
-            }
-            switch (cnt) {
-                case 3: *p1 = stoi(num); break;
-                case 4: *p2 = stoi(num); break;
-                case 5: *p3 = stoi(num); break;
-            }
-            num = "";
+        int numbers[3];
+        for (int i = 0; i < 3; i++) {
+            numbers[i] = std::stoi(matches[i + 4]);
         }
-        cnt++;
+
+        arr[letter_indices[0]][letter_indices[1]][letter_indices[2]][0]
+                = numbers[0];
+        arr[letter_indices[0]][letter_indices[1]][letter_indices[2]][1]
+                = numbers[1];
+        arr[letter_indices[0]][letter_indices[1]][letter_indices[2]][2]
+                = numbers[2];
+
+        int bijection = letter_indices[0]
+                        + letter_indices[1] * 10
+                        + letter_indices[2] * 100;
+
+        if (lines->count(bijection) != 0) {
+            throw std::runtime_error("matrix line duplicate");
+        }
+
+        lines->insert(bijection);
+
+    } else {
+        throw std::runtime_error("bad matrix line format");
     }
 }
 
-GameMatrix::GameMatrix() : GameMatrix("/home/afox/Documents/Work/NSU/CPP_LABS/LAB2/resources/matrix-default.txt") {}
+GameMatrix::GameMatrix() : GameMatrix(
+        "/home/afox/Documents/Work/NSU/CPP_LABS/LAB2/resources/matrix-default.txt"
+) {}
 
 GameMatrix::GameMatrix(std::string file_path) {
     std::ifstream in_file;
     open_in_file(in_file, file_path);
-    std::string buf;
+    std::set<int> lines;
+
     while (!in_file.eof()) {
+        std::string buf;
         getline(in_file, buf);
-        if (!compare_with_pattern(buf,
-                                  MATRIX_LINE_REGEX)) {
-            throw std::exception();
-        }
-        Choice c1, c2, c3;
-        int p1, p2, p3;
-        parse_line(&p1, &p2, &p3, &c1, &c2, &c3, buf);
-        matrix[choices_t(c1, c2, c3)] = points_t(p1, p2, p3);
+        update_matrix(matrix, buf, &lines);
     }
-}
 
-points_t GameMatrix::get_points(Choice c1, Choice c2, Choice c3) {
-    return matrix[choices_t(c1, c2, c3)];
-}
-
-int GameMatrix::get_points_for_first(Choice c1, Choice c2, Choice c3) {
-    return std::get<0>(get_points(c1, c2, c3));
-}
-
-int GameMatrix::get_points_for_second(Choice c1, Choice c2, Choice c3) {
-    return std::get<1>(get_points(c1, c2, c3));
-}
-
-int GameMatrix::get_points_for_third(Choice c1, Choice c2, Choice c3) {
-    return std::get<2>(get_points(c1, c2, c3));
-}
-
-int GameMatrix::get_points_for_concrete(Choice c1, Choice c2, Choice c3, int prisoner_ind) {
-    switch (prisoner_ind) {
-        case 0:
-            return get_points_for_first(c1, c2, c3);
-        case 1:
-            return get_points_for_second(c1, c2, c3);
-        case 2:
-            return get_points_for_third(c1, c2, c3);
-        default:
-            throw std::exception();
+    if (lines.size() != 8) {
+        throw std::runtime_error("inlaid number of lines");
     }
+
+    in_file.close();
+}
+
+int GameMatrix::get_points_for_concrete(
+        Choice c1, Choice c2, Choice c3, int prisoner_ind) {
+    return matrix[c1][c2][c3][prisoner_ind];
 }
