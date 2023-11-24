@@ -8,15 +8,18 @@
 
 #include "../Task.h"
 
+#define COMPRESSTASK_INFO "compress - speedup wav file.\n configuration: compress [percentage]% <from (seconds)> <to (seconds)>\n"
+
 class CompressTask : public Task {
 private:
     int percentage;
 public:
     CompressTask(std::string file_path,
                  int percentage);
+    CompressTask()=default;
     TaskType::TaskTypeEnum get_type() override { return TaskType::COMPRESS; }
     void process() override;
-    std::string get_info() override { return ""; }
+    std::string get_info() override { return COMPRESSTASK_INFO; }
 };
 
 

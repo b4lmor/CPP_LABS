@@ -8,6 +8,7 @@
 #include "../soundprocessor/task/impl/MuteTask.h"
 #include "../soundprocessor/task/impl/CompressTask.h"
 #include "../soundprocessor/task/taskfactory/TaskFactory.h"
+#include "../exception/BadInputException.h"
 
 #include <fstream>
 #include <vector>
@@ -23,11 +24,11 @@ static void init_mixtask_parameters(
         int *start, int *end, int *input_index) {
 
     if (config_line_words.size() < 2 || config_line_words.size() > 4) {
-        throw std::exception();
+        throw BadInputException();
     }
 
     if (!std::regex_match(config_line_words[1], INPUT_INDEX_PATTERN)) {
-        throw std::exception();
+        throw BadInputException();
     }
 
     *input_index = std::stoi(config_line_words[1].substr(1)) - 1;
@@ -35,7 +36,7 @@ static void init_mixtask_parameters(
     if (config_line_words.size() > 2) {
 
         if (!std::regex_match(config_line_words[2], NUMERIC_PATTERN)) {
-            throw std::exception();
+            throw BadInputException();
         }
 
         *start = std::stoi(config_line_words[2]);
@@ -49,7 +50,7 @@ static void init_mixtask_parameters(
     if (config_line_words.size() > 3) {
 
         if (!std::regex_match(config_line_words[3], NUMERIC_PATTERN)) {
-            throw std::exception();
+            throw BadInputException();
         }
 
         *end = std::stoi(config_line_words[3]);
@@ -64,13 +65,13 @@ static void init_mutetask_parameters(
         int *start, int *end) {
 
     if (config_line_words.size() < 2 || config_line_words.size() > 4) {
-        throw std::exception();
+        throw BadInputException();
     }
 
     if (config_line_words.size() > 1) {
 
         if (!std::regex_match(config_line_words[1], NUMERIC_PATTERN)) {
-            throw std::exception();
+            BadInputException();
         }
 
         *start = std::stoi(config_line_words[1]);
@@ -84,7 +85,7 @@ static void init_mutetask_parameters(
     if (config_line_words.size() > 2) {
 
         if (!std::regex_match(config_line_words[2], NUMERIC_PATTERN)) {
-            throw std::exception();
+            throw BadInputException();
         }
 
         *end = std::stoi(config_line_words[2]);
@@ -99,11 +100,11 @@ static void init_compresstask_parameters(
         int *percentage) {
 
     if (config_line_words.size() != 2) {
-        throw std::exception();
+        throw BadInputException();
     }
 
     if (!std::regex_match(config_line_words[1], PERCENTAGE_PATTERN)) {
-        throw std::exception();
+        throw BadInputException();
     }
 
     *percentage = std::stoi(
@@ -138,7 +139,7 @@ std::queue<std::shared_ptr<Task>> ConfigReader::load_tasks(
         StringUtils::split(buffer, config_line_words);
 
         if (config_line_words.empty()) {
-            throw std::exception();
+            BadInputException();
         }
 
         TaskType::TaskTypeEnum task_type = TaskType::get_task_by_name(

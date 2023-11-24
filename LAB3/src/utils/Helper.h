@@ -6,9 +6,15 @@
 #define LAB3_HELPER_H
 
 #include <iostream>
+#include "../soundprocessor/task/taskfactory/TaskFactory.h"
 
 void print_help() {
-    std::cout << "try: sound_processor.exe [-h] [-c config.txt output.wav input1.wav [input2.wav …]]" << std::endl;
+
+    auto tasks = TaskFactory::get_all_tasks();
+
+    for (const auto & task : tasks) {
+        std::cout << task->get_info() << std::endl;
+    }
 }
 
 #endif //LAB3_HELPER_H

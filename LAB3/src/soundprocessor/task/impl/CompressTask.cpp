@@ -5,6 +5,7 @@
 #include <vector>
 #include "CompressTask.h"
 #include "../../wav/WavUtils.h"
+#include "../../../exception/BadInputException.h"
 
 CompressTask::CompressTask(
         std::string file_path,
@@ -25,7 +26,7 @@ void CompressTask::process() {
     WavUtils::read_header(&header, input);
 
     if (WavUtils::is_not_valid(header)) {
-        throw std::exception();
+        throw BadInputException();
     }
 
     double k = 100.0 / percentage;

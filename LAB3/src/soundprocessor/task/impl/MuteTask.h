@@ -9,15 +9,18 @@
 #include <string>
 #include "../Task.h"
 
+#define MUTETASK_INFO "mute - mute wav file time interval.\n configuration: mute <from (seconds)> <to (seconds)>\n"
+
 class MuteTask : public Task {
 private:
     int start;
     int end;
 public:
     MuteTask(std::string file_path, int s, int e);
+    MuteTask()=default;
     TaskType::TaskTypeEnum get_type() override { return TaskType::MUTE; }
     void process() override;
-    std::string get_info() override { return ""; }
+    std::string get_info() override { return MUTETASK_INFO; }
 };
 
 

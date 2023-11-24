@@ -5,6 +5,7 @@
 #include <vector>
 #include "MixTask.h"
 #include "../../wav/WavUtils.h"
+#include "../../../exception/BadInputException.h"
 #include <utility>
 
 #define MIN(a, b) (a < b ? a :b)
@@ -47,7 +48,7 @@ void MixTask::process() {
     WavUtils::read_header(&mix_header, mix_input);
 
     if (WavUtils::is_not_valid(header) || WavUtils::is_not_valid(mix_header)) {
-        throw std::exception();
+        throw BadInputException();
     }
 
     WavUtils::write_header(&header, tmp);

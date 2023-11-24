@@ -4,6 +4,8 @@ project(LAB3
 	DESCRIPTION "NSU LABS FIT 3 SEMESTER"
 	LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+
 set(PROJECT_SOURCES
         src/main.cpp
 		src/utils/ParsedArgs.cpp
