@@ -1,15 +1,13 @@
 cmake_minimum_required(VERSION 3.26)
-project(LAB0 
+project(LAB4
 	VERSION 1.0.0
 	DESCRIPTION "NSU LABS FIT 3 SEMESTER"
 	LANGUAGES CXX)
 
-set(PROJECT_HEADERS
-)
+set (CMAKE_CXX_STANDARD 20)
 
 set(PROJECT_SOURCES
         src/main.cpp
 )
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
