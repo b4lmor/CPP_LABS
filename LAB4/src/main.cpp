@@ -8,6 +8,7 @@
 
 #define CSV_FILE_PATH R"(C:\pets\c++\CPP_LABS2\LAB4\resources\test.csv)"
 #define SEPARATOR_DEFAULT ','
+#define ESCAPE_CHARACTER_DEFAULT '"'
 
 
 template<typename Ch, typename Tr>
@@ -30,16 +31,22 @@ std::basic_ostream<Ch, Tr>& operator<<(std::basic_ostream<Ch, Tr>& os, const std
 template<typename... Args>
 class CSVParser {
 public:
-    CSVParser(std::ifstream& file, const int skip_lines, const char separator) : file(file), skip_lines(skip_lines),
-        separator(separator) {
+    CSVParser(std::ifstream& file, const int skip_lines, const char separator, const char escape) :
+        file(file), skip_lines(skip_lines), separator(separator), escape(escape) {
     }
 
-    CSVParser(std::ifstream& file, const int skip_lines) : file(file), skip_lines(skip_lines) {
+    CSVParser(std::ifstream& file, const int skip_lines, const char separator) :
+        file(file), skip_lines(skip_lines), separator(separator) {
+    }
+
+    CSVParser(std::ifstream& file, const int skip_lines) :
+        file(file), skip_lines(skip_lines) {
     }
 
     class Iterator {
     public:
-        Iterator(std::ifstream& file, const int skip_lines, const char separator) : file(file), separator(separator) {
+        Iterator(std::ifstream& file, const int skip_lines, const char separator, const char escape) :
+        file(file), separator(separator), escape(escape) {
             for (int i = 0; i < skip_lines; ++i) {
                 std::string line;
                 std::getline(file, line);
@@ -64,7 +71,8 @@ public:
 
     private:
         std::ifstream& file;
-        char separator = SEPARATOR_DEFAULT;
+        char separator;
+        char escape;
         std::tuple<Args...> current_row;
         int row = 0;
         int column = 0;
@@ -95,8 +103,19 @@ public:
         template<typename T>
         T parse_field(std::stringstream& ss) {
             T field;
+            std::string tmp;
             std::string line;
-            std::getline(ss, line, separator);
+
+            marker:
+            std::getline(ss, tmp, separator);
+
+            if (tmp.ends_with(escape)) {
+                tmp[tmp.size() - 1] = separator;
+                line += tmp;
+                goto marker;
+            }
+
+            line += tmp;
             std::stringstream ss_parsed(line);
             ss_parsed >> field;
 
@@ -112,17 +131,18 @@ public:
     };
 
     Iterator begin() {
-        return Iterator(file, skip_lines, separator);
+        return Iterator(file, skip_lines, separator, escape);
     }
 
     Iterator end() {
-        return Iterator(file, 0, separator);
+        return Iterator(file, 0, separator, escape);
     }
 
 private:
     std::ifstream& file;
     int skip_lines;
     char separator = SEPARATOR_DEFAULT;
+    char escape = ESCAPE_CHARACTER_DEFAULT;
 };
 
 
