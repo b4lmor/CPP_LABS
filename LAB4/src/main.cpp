@@ -11,42 +11,37 @@
 #define ESCAPE_CHARACTER_DEFAULT '"'
 
 
-template<typename Ch, typename Tr>
-std::basic_ostream<Ch, Tr>& operator<<(std::basic_ostream<Ch, Tr>& os, const std::tuple<>& t) {
-    return os;
+template<typename Ch, typename Tr, typename... Args, std::size_t... Is>
+void print_tuple(std::basic_ostream<Ch, Tr>& os, const std::tuple<Args...>& t, std::index_sequence<Is...>) {
+    ((os << (Is == 0 ? "" : ", ") << std::get<Is>(t)), ...);
 }
 
-template<typename Ch, typename Tr, typename First, typename... Rest>
-std::basic_ostream<Ch, Tr>& operator<<(std::basic_ostream<Ch, Tr>& os, const std::tuple<First, Rest...>& t) {
-    os << std::get<0>(t);
-
-    if constexpr (sizeof...(Rest) > 0) {
-        os << ", " << std::tuple<Rest...>(std::get<Rest>(t)...);
-    }
-
+template<typename Ch, typename Tr, typename... Args>
+std::basic_ostream<Ch, Tr>& operator<<(std::basic_ostream<Ch, Tr>& os, const std::tuple<Args...>& t) {
+    os << "(";
+    print_tuple(os, t, std::index_sequence_for<Args...>{});
+    os << ")";
     return os;
 }
-
 
 template<typename... Args>
 class CSVParser {
 public:
-    CSVParser(std::ifstream& file, const int skip_lines, const char separator, const char escape) :
-        file(file), skip_lines(skip_lines), separator(separator), escape(escape) {
+    CSVParser(std::ifstream& file, const int skip_lines, const char separator, const char escape) : file(file),
+        skip_lines(skip_lines), separator(separator), escape(escape) {
     }
 
-    CSVParser(std::ifstream& file, const int skip_lines, const char separator) :
-        file(file), skip_lines(skip_lines), separator(separator) {
+    CSVParser(std::ifstream& file, const int skip_lines, const char separator) : file(file), skip_lines(skip_lines),
+        separator(separator) {
     }
 
-    CSVParser(std::ifstream& file, const int skip_lines) :
-        file(file), skip_lines(skip_lines) {
+    CSVParser(std::ifstream& file, const int skip_lines) : file(file), skip_lines(skip_lines) {
     }
 
     class Iterator {
     public:
-        Iterator(std::ifstream& file, const int skip_lines, const char separator, const char escape) :
-        file(file), separator(separator), escape(escape) {
+        Iterator(std::ifstream& file, const int skip_lines, const char separator,
+                 const char escape) : file(file), separator(separator), escape(escape) {
             for (int i = 0; i < skip_lines; ++i) {
                 std::string line;
                 std::getline(file, line);
@@ -106,7 +101,7 @@ public:
             std::string tmp;
             std::string line;
 
-            marker:
+        marker:
             std::getline(ss, tmp, separator);
 
             if (tmp.ends_with(escape)) {
@@ -147,7 +142,7 @@ private:
 
 
 int main() {
-    const std::tuple<int, double, std::string> tup(42, 3.14, "hello");
+    const std::tuple<int, double, std::string, int, int, int> tup(42, 3.14, "hello", 1, 2, 3);
     std::cout << "Tuple printer:" << std::endl;
     std::cout << tup << std::endl;
     std::cout << "=================" << std::endl;
