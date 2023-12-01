@@ -8,7 +8,7 @@
 #include <iostream>
 #include "../soundprocessor/task/taskfactory/TaskFactory.h"
 
-void print_help() {
+inline void print_help() {
 
     auto tasks = TaskFactory::get_all_tasks();
 
