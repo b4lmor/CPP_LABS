@@ -28,7 +28,7 @@ struct List {
 
 #include <fstream>
 
-class WavUtils {
+class WavUtils { // TODO распределить логику
 public:
     static void read_header(WavHeader *header, std::ifstream &input) {
         input.read(reinterpret_cast<char *>(header), sizeof(WavHeader) - 8);

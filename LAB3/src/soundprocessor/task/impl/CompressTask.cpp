@@ -29,7 +29,7 @@ void CompressTask::process() {
         throw BadInputException();
     }
 
-    double k = 100.0 / percentage;
+    double k = 100.0 / percentage; // TODO validation perc
     double cur_k = k;
 
     WavUtils::write_header(&header, tmp);

@@ -24,7 +24,7 @@ static void init_mixtask_parameters(
         int *start, int *end, int *input_index) {
 
     if (config_line_words.size() < 2 || config_line_words.size() > 4) {
-        throw BadInputException();
+        throw BadInputException(); // TODO описать ошибки
     }
 
     if (!std::regex_match(config_line_words[1], INPUT_INDEX_PATTERN)) {

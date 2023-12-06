@@ -1,6 +1,11 @@
 # mix two sounds from 5 seconds
-mix $2 5
+# mix $2 5
 # mute from 3 to 5 sec
-mute 3 5
+# mute 3 5
 # speedup to 50%
-compress 50%
+# compress 50000%
+# mute 1 3
+# mute 5 8
+# mix $2 3 8
+# compress 50%
+kkkk 10 100 abc 123

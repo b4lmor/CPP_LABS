@@ -23,6 +23,7 @@ struct TaskFactory {
         tasks.push_back(std::make_unique<MuteTask>());
         tasks.push_back(std::make_unique<MixTask>());
         tasks.push_back(std::make_unique<CompressTask>());
+        // tasks.push_back(std::make_unique<CompressTask>());
 
         return tasks;
     }
